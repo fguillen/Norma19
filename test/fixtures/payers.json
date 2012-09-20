@@ -1,0 +1,38 @@
+[
+  {
+    "nif": "12345678A",
+    "reference": "1001",
+    "name": "Ángel María Sanchez Ñuriga",
+    "bank_account": "11112222334444444444",
+    "amount": 10.00,
+    "items": [
+      "fee for month Agost",
+      "member num 1001",
+      "numer tickets 2"
+    ]
+  },
+  {
+    "nif": "12345678b",
+    "reference": "1002",
+    "name": "Walter Croquet",
+    "bank_account": "99998888776666666666",
+    "amount": 200001.00,
+    "items": [
+      "fee for month Agost",
+      "member num 1002",
+      "numer tickets 3"
+    ]
+  },
+  {
+    "nif": "12345678c",
+    "reference": "1003",
+    "name": "Andrea Sugostiaga",
+    "bank_account": "44445555667777777777",
+    "amount": 00.01,
+    "items": [
+      "fee for month Agost",
+      "member num 1003",
+      "numer tickets 4"
+    ]
+  }
+]
