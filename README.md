@@ -23,6 +23,7 @@ TODO: Write usage instructions here
 ## TODO
 
 * Works for only one _"ordenante"_.
+* Payer records has to be ordered!!
 
 ## Contributing
 

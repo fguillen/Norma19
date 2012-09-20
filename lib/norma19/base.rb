@@ -6,6 +6,7 @@ class Norma19::Base
     @payers = payers
 
     @opts = @opts.merge( generate_extra_opts )
+    @payers = sort_payers( @payers )
   end
 
   def generate_extra_opts
@@ -19,6 +20,14 @@ class Norma19::Base
       :total_records => (total_records_collector + 2).to_s,
       :total_amount => total_amount
     }
+  end
+
+  def sort_payers( payers )
+    # Dentro de cada cliente ordenante, todos los registros individuales deberán figurar en el
+    # fichero clasificados, ascendentemente, por el número de la Entidad - Oficina de adeudo,
+    # referencia y ”código de dato”, terminando con un registro de "Total ordenante"
+
+    payers.sort { |x, y| "#{x[:payer_bank_account][0,8]}#{x[:payer_reference_code]}" <=> "#{y[:payer_bank_account][0,8]}#{y[:payer_reference_code]}" }
   end
 
   def validate_opts
@@ -66,8 +75,6 @@ class Norma19::Base
     errors = []
 
     payers.each_with_index do |payer, index|
-      puts "XXX: payer: #{payer}"
-
       errors_payer = []
       # payer_reference_code
       errors_payer << "'payer_reference_code' can't be empty" if !payer[:payer_reference_code] || payer[:payer_reference_code].empty?
