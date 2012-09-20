@@ -39,6 +39,21 @@ class Norma19::FieldRendererTest < Test::Unit::TestCase
     assert_equal( "310112", Norma19::FieldRenderer.render_date( "2012-01-31" ) )
   end
 
+
+  def test_render_field_empty
+    field = { :name => :free, :type => :empty, :size => 4 }
+    opts = {}
+
+    assert_equal( "    ", Norma19::FieldRenderer.render_field( field, opts ) )
+  end
+
+  def test_render_field_optional
+    field = { :name => :entry_4, :type => :string, :size => 4, :optional => true }
+    opts = {}
+
+    assert_equal( "    ", Norma19::FieldRenderer.render_field( field, opts ) )
+  end
+
   def test_render_field_alphanumeric
     field = { :name => :collector_nif, :type => :alphanumeric, :size => 9 }
     opts = { :collector_nif => "NIF1212" }

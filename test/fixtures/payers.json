@@ -1,29 +1,29 @@
 [
   {
-    "nif": "12345678A",
-    "reference": "1001",
-    "name": "Ángel María Sanchez Ñuriga",
-    "bank_account": "11112222334444444444",
+    "payer_nif": "12345678A",
+    "payer_reference_code": "1001",
+    "payer_name": "Ángel María Sanchez Ñuriga",
+    "payer_bank_account": "11112222334444444444",
     "amount": 10.00,
     "entry_1": "fee for month Agost",
     "entry_2": "member num 1001",
     "entry_3": "numer tickets 2"
   },
   {
-    "nif": "12345678b",
-    "reference": "1002",
-    "name": "Walter Croquet",
-    "bank_account": "99998888776666666666",
+    "payer_nif": "12345678b",
+    "payer_reference_code": "1002",
+    "payer_name": "Walter Croquet",
+    "payer_bank_account": "99998888776666666666",
     "amount": 200001.00,
     "entry_1": "fee for month Agost",
     "entry_2": "member num 1002",
     "entry_3": "numer tickets 3"
   },
   {
-    "nif": "12345678c",
-    "reference": "1003",
-    "name": "Andrea Sugostiaga",
-    "bank_account": "44445555667777777777",
+    "payer_nif": "12345678c",
+    "payer_reference_code": "1003",
+    "payer_name": "Andrea Sugostiaga",
+    "payer_bank_account": "44445555667777777777",
     "amount": 0.01,
     "entry_1": "fee for month Agost"
   }

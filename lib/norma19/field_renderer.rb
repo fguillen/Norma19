@@ -1,26 +1,30 @@
-class Norma19::FieldRenderer
+module Norma19::FieldRenderer
   def self.render_field( field, opts )
-    puts "XXX: field: #{field}"
-    puts "XXX: opt: #{opts}"
+    type = field[:type]
+    value = field[:value] || opts[field[:name]]
+    size = field[:size]
+    optional = field[:optional]
 
-    case field[:type]
+    return render_empty( size ) if !value && optional
+
+    case type
     when :empty
-      render_empty( field[:size] )
+      render_empty( size )
 
     when :numeric
-      render_numeric( field[:value] || opts[field[:name]], field[:size] )
+      render_numeric( value, size )
 
     when :string
-      render_string( field[:value] || opts[field[:name]], field[:size] )
+      render_string( value, size )
 
     when :alphanumeric
-      render_alphanumeric( field[:value] || opts[field[:name]], field[:size] )
+      render_alphanumeric( value, size )
 
     when :date
-      render_date( opts[field[:name]] )
+      render_date( value )
 
     when :currency
-      render_currency( opts[field[:name]], field[:size] )
+      render_currency( value, size )
 
     end
   end
@@ -38,7 +42,7 @@ class Norma19::FieldRenderer
   end
 
   def self.render_numeric( string, size )
-    string.upcase.rjust( size, "0" )
+    string.rjust( size, "0" )
   end
 
   def self.render_date( string )
