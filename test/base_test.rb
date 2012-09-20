@@ -9,26 +9,27 @@ class Norma19::BaseTest < Test::Unit::TestCase
   end
 
   def test_initialize
-    Norma19::Base.any_instance.expects( :generate_extra_opts ).returns( { :key_extra => "value_extra" } )
-    opts = { :key_1 => "value_1" }
-    payers = JSON.parse( File.read( "#{FIXTURES}/payers.json" ), :symbolize_names => true )
+    norma19 = Norma19::Base.new( "opts", "payers" )
 
-    norma19 = Norma19::Base.new( opts, payers )
+    assert_equal( "opts", norma19.opts )
+    assert_equal( "payers", norma19.payers )
+  end
 
-    assert_equal( "value_1", norma19.opts[:key_1] )
-    assert_equal( "value_extra", norma19.opts[:key_extra] )
-    assert_equal( ["1001", "1003", "1002"], norma19.payers.map { |e| e[:payer_reference_code] } )
+  def test_sort_payers
+    assert_equal( ["1001", "1002", "1003"], @norma19.payers.map { |e| e[:payer_reference_code] } )
+    @norma19.sort_payers
+    assert_equal( ["1001", "1003", "1002"], @norma19.payers.map { |e| e[:payer_reference_code] } )
   end
 
 
   def test_generate_extra_opts
     Delorean.time_travel_to( "2001-02-03" ) do
-      extra_opts = @norma19.generate_extra_opts
-      assert_equal( "2001-02-03", extra_opts[:file_created_at] )
-      assert_equal( "3", extra_opts[:total_payers] )
-      assert_equal( "7", extra_opts[:total_records_collector] )
-      assert_equal( "9", extra_opts[:total_records] )
-      assert_equal( 200011.01, extra_opts[:total_amount] )
+      @norma19.generate_extra_opts
+      assert_equal( "2001-02-03", @norma19.opts[:file_created_at] )
+      assert_equal( "3", @norma19.opts[:total_payers] )
+      assert_equal( "7", @norma19.opts[:total_records_collector] )
+      assert_equal( "9", @norma19.opts[:total_records] )
+      assert_equal( 200011.01, @norma19.opts[:total_amount] )
     end
   end
 
@@ -38,6 +39,23 @@ class Norma19::BaseTest < Test::Unit::TestCase
 
   def test_validate_payers
     assert_equal( true, @norma19.validate_payers.empty? )
+  end
+
+  def test_validate
+    assert_equal( true, @norma19.validate.empty? )
+  end
+
+  def test_validate_with_errors
+    opts = {}
+    payers = [{}]
+
+    norma19 = Norma19::Base.new( opts, payers )
+    errors = norma19.validate
+
+    assert_equal( 6, errors[:opts].length )
+    assert_equal( 1, errors[:payers].length )
+    assert_equal( 5, errors[:payers].first[:errors].length )
+    assert_equal( 0, errors[:payers].first[:index] )
   end
 
   def test_generate_file
