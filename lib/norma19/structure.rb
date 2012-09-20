@@ -14,8 +14,8 @@ class Norma19::Structure
     { :name => :free, :description => "libre", :type => :empty, :size => 6 },
     { :name => :collector_name, :description => "nombre del cliente ordenante", :type => :string, :size => 40 },
     { :name => :free, :description => "libre", :type => :empty, :size => 20 },
-    { :name => :bank_entity, :description => "entidad receptora fichero", :type => :numeric, :size => 4 },
-    { :name => :bank_office, :description => "oficina receptora fichero", :type => :numeric, :size => 4 },
+    { :name => :recipient_bank_entity, :description => "entidad receptora fichero", :type => :numeric, :size => 4 },
+    { :name => :recipient_bank_office, :description => "oficina receptora fichero", :type => :numeric, :size => 4 },
     { :name => :free, :description => "libre", :type => :empty, :size => 12 },
     { :name => :free, :description => "libre", :type => :empty, :size => 40 },
     { :name => :free, :description => "libre", :type => :empty, :size => 14 }
@@ -102,6 +102,21 @@ class Norma19::Structure
   def initialize( opts, payers )
     @opts = opts
     @payers = payers
+
+    @opts = @opts.merge( generate_extra_opts )
+  end
+
+  def generate_extra_opts
+    total_records_collector = @payers.map { |e| !e[:entry_2] && !e[:entry_4] && !e[:entry_4] ? 1 : 2 }.reduce( &:+ ) + 2
+    total_amount = @payers.map { |e| e[:amount] }.reduce( &:+ )
+
+    {
+      :file_created_at => Time.now.strftime( "%Y-%m-%d" ),
+      :total_payers => @payers.length,
+      :total_records_collector => total_records_collector,
+      :total_records => total_records_collector + 2,
+      :total_amount => total_amount
+    }
   end
 
   def validate_opts
@@ -121,6 +136,14 @@ class Norma19::Structure
     # collector_bank_account
     errors << "'collector_bank_account' can't be empty" if !opts[:collector_bank_account] || opts[:collector_name].empty?
     errors << "'collector_bank_account' has to be 20 characters" if opts[:collector_bank_account].length != 20
+
+    # recipient_bank_entity
+    errors << "'recipient_bank_entity' can't be empty" if !opts[:recipient_bank_entity] || opts[:recipient_bank_entity].empty?
+    errors << "'recipient_bank_entity' has to be 4 characters" if opts[:recipient_bank_entity].length != 4
+
+    # recipient_bank_office
+    errors << "'recipient_bank_office' can't be empty" if !opts[:recipient_bank_office] || opts[:recipient_bank_office].empty?
+    errors << "'recipient_bank_office' has to be 4 characters" if opts[:recipient_bank_office].length != 4
 
     # total_amount
     errors << "'total_amount' can't be empty" if !opts[:total_amount] || opts[:total_amount].empty?
@@ -177,9 +200,11 @@ class Norma19::Structure
   end
 
   def generate_head_1
-    HEAD_1.map do |field|
-      Norma19::FieldRenderer.generate_field( field, opts )
-    end.join
+    HEAD_1.map { |field| Norma19::FieldRenderer.render_field( field, opts ) }.join
+  end
+
+  def generate_head_2
+    HEAD_2.map { |field| Norma19::FieldRenderer.render_field( field, opts ) }.join
   end
 
 end

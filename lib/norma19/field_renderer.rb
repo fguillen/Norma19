@@ -1,6 +1,7 @@
 class Norma19::FieldRenderer
   def self.render_field( field, opts )
     puts "XXX: field: #{field}"
+    puts "XXX: opt: #{opts}"
 
     case field[:type]
     when :empty
@@ -16,7 +17,10 @@ class Norma19::FieldRenderer
       render_alphanumeric( field[:value] || opts[field[:name]], field[:size] )
 
     when :date
-      render_alphanumeric( opts[field[:name]] )
+      render_date( opts[field[:name]] )
+
+    when :currency
+      render_currency( opts[field[:name]], field[:size] )
 
     end
   end
@@ -40,6 +44,10 @@ class Norma19::FieldRenderer
   def self.render_date( string )
     splits = string.split( "-" )
     "#{splits[2]}#{splits[1]}#{splits[0][2,2]}"
+  end
+
+  def self.render_currency( float, size )
+    sprintf( "%.2f", float ).gsub( ".", "" ).rjust( size, "0" )
   end
 
 

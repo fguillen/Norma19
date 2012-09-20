@@ -1,5 +1,6 @@
 require "test/unit"
 require "mocha"
+require "delorean"
 require_relative "../lib/norma19"
 
 module TestHelper
@@ -7,6 +8,10 @@ module TestHelper
 
   def read_fixture( fixture_name )
     File.read( "#{FIXTURES}/#{fixture_name}" )
+  end
+
+  def read_spaced_fixture( fixture_name )
+    File.read( "#{FIXTURES}/#{fixture_name}" ).gsub( ".", " " )
   end
 
   def in_tmpdir
