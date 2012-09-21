@@ -15,7 +15,7 @@ class Norma19Test < Test::Unit::TestCase
     payers = {}
 
     exception =
-      assert_raise( Norma19::ValidatingException ) do
+      assert_raise( Norma19::ValidatingError ) do
         assert_equal( read_spaced_fixture( "norma19.txt" ), Norma19.generate_file( opts, payers ) )
       end
 

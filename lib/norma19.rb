@@ -13,7 +13,7 @@ module Norma19
     norma19 = Norma19::Base.new( opts, payers )
 
     errors = norma19.validate
-    raise Norma19::ValidatingException, errors unless errors.empty?
+    raise Norma19::ValidatingError, errors unless errors.empty?
 
     norma19.generate_extra_opts
     norma19.sort_payers

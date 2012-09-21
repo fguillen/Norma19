@@ -1,4 +1,4 @@
-class Norma19::ValidatingException < Exception
+class Norma19::ValidatingError < Exception
   attr_reader :errors
 
   def initialize( errors )
