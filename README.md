@@ -34,12 +34,8 @@ For example I have in a Rails application:
         }
 
         payers = generate_payers( members )
-        norma19 = Norma19::Base.new( opts, payers )
 
-        errors = norma19.validate
-        raise Exceptions::Norma19ExportException, errors if( !errors.empty? )
-
-        norma19.generate_file
+        Norma19.generate_file( opts, payers )
       end
 
       def self.generate_payers( members )
