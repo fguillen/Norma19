@@ -108,9 +108,6 @@ class Norma19::Base
   end
 
   def generate_file
-    generate_extra_opts
-    sort_payers
-
     result = []
 
     result << Norma19::LineRenderer.render_head_1( opts )

@@ -59,7 +59,11 @@ class Norma19::BaseTest < Test::Unit::TestCase
   end
 
   def test_generate_file
-    assert_equal( read_spaced_fixture( "norma19.txt" ), @norma19.generate_file )
+    Delorean.time_travel_to( "2012-09-20" ) do
+      @norma19.generate_extra_opts
+      @norma19.sort_payers
+      assert_equal( read_spaced_fixture( "norma19.txt" ), @norma19.generate_file )
+    end
   end
 
 end
