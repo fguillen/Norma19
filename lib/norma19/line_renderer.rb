@@ -27,7 +27,7 @@ module Norma19::LineRenderer
     result = render_line( :payer_1, all_opts )
 
     if( payer[:entry_2] || payer[:entry_3] || payer[:entry_4]  )
-      result += "\n#{render_line( :payer_2, all_opts )}"
+      result += "\r\n#{render_line( :payer_2, all_opts )}"
     end
 
     result

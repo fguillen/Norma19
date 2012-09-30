@@ -11,7 +11,7 @@ module TestHelper
   end
 
   def read_spaced_fixture( fixture_name )
-    File.read( "#{FIXTURES}/#{fixture_name}" ).gsub( ".", " " )
+    File.read( "#{FIXTURES}/#{fixture_name}" ).gsub( ".", " " ).gsub( "\n", "\r\n" )
   end
 
   def in_tmpdir
