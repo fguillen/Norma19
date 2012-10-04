@@ -1,3 +1,5 @@
+# encoding: iso-8859-1
+
 require_relative "test_helper"
 
 class Norma19::LineRendererTest < Test::Unit::TestCase
@@ -33,6 +35,7 @@ class Norma19::LineRendererTest < Test::Unit::TestCase
   end
 
   def test_render_payer_1
+    # write_spaced_fixture( "payer_1.txt", Norma19::LineRenderer.render_payer( @opts, @payers.first ) )
     assert_equal( read_spaced_fixture( "payer_1.txt" ), Norma19::LineRenderer.render_payer( @opts, @payers.first ) )
   end
 

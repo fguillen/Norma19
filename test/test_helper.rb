@@ -10,8 +10,14 @@ module TestHelper
     File.read( "#{FIXTURES}/#{fixture_name}" )
   end
 
+  def write_spaced_fixture( fixture_name, content )
+    puts "ATTENTION: fixture been written"
+    File.open( "#{FIXTURES}/#{fixture_name}", "w:iso-8859-1" ) { |f| f.write content.gsub( ".", " " ) }
+  end
+
   def read_spaced_fixture( fixture_name )
-    File.read( "#{FIXTURES}/#{fixture_name}" ).gsub( ".", " " ).gsub( "\n", "\r\n" )
+    f = File.open( "#{FIXTURES}/#{fixture_name}", "r:iso-8859-1" )
+    f.read.gsub( ".", " " )
   end
 
   def in_tmpdir

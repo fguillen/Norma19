@@ -120,6 +120,6 @@ class Norma19::Base
     result << Norma19::LineRenderer.render_footer_1( opts )
     result << Norma19::LineRenderer.render_footer_2( opts )
 
-    result.join( "\r\n" )
+    result.join( "\r\n" ).encode( "ISO-8859-1" )
   end
 end

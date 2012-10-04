@@ -1,4 +1,4 @@
-# encoding: utf-8
+# encoding: iso-8859-1
 
 module Norma19::LineRenderer
   def self.render_line( structure_name, opts )
@@ -30,7 +30,7 @@ module Norma19::LineRenderer
       result += "\r\n#{render_line( :payer_2, all_opts )}"
     end
 
-    result
+    result.encode( "ISO-8859-1" )
   end
 
 end
