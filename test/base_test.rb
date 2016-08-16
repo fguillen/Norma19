@@ -69,4 +69,19 @@ class Norma19::BaseTest < Test::Unit::TestCase
     end
   end
 
+  def test_generate_file_with_collector_sufix
+    opts = JSON.parse( File.read( "#{FIXTURES}/opts.json" ), :symbolize_names => true)
+    payers = JSON.parse( File.read( "#{FIXTURES}/payers.json" ), :symbolize_names => true )
+
+    opts[:collector_sufix] = "1"
+    norma19 = Norma19::Base.new( opts, payers )
+
+    Delorean.time_travel_to( "2012-09-20" ) do
+      norma19.generate_extra_opts
+      norma19.sort_payers
+      # write_spaced_fixture( "norma19_with_collector_sufix.txt", norma19.generate_file )
+      assert_equal( read_spaced_fixture( "norma19_with_collector_sufix.txt" ), norma19.generate_file )
+    end
+  end
+
 end

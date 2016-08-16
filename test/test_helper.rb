@@ -1,5 +1,5 @@
 require "test/unit"
-require "mocha"
+require "mocha/test_unit"
 require "delorean"
 require_relative "../lib/norma19"
 

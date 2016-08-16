@@ -1,7 +1,7 @@
 module Norma19::FieldRenderer
   def self.render_field( field, opts )
     type = field[:type]
-    value = field[:value] || opts[field[:name]]
+    value = opts[field[:name]] || field[:value]
     size = field[:size]
     optional = field[:optional]
 
